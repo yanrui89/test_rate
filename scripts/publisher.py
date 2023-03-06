@@ -7,13 +7,16 @@ class publisher():
     def __init__(self):
         self.pva_pub = rospy.Publisher("pva_topic", pva, queue_size=1)
         self.pva_timer = rospy.Timer(rospy.Duration(0.1), self._publishing)
+        self.count = 0
 
     def _publishing(self, msg):
         print("hello")
+        time = rospy.Time.now()
         curr_pva = pva()
-        curr_pva.position.x = 1
-        curr_pva.position.y = 2
-        
+        print(time)
+        curr_pva.header.stamp = time
+        curr_pva.position.x = self.count
+        self.count += 1
         self.pva_pub.publish(curr_pva)
 
 
